@@ -57,10 +57,9 @@ jobs:
         username: guycoff
         password: 784951623Atnt
 
-    # Build & Push Docker Image
-- name: Build & push image
-  uses: docker/build-push-action@v6
-  with:
-    context: .
-    push: true
-    tags: docker.io/guycoff/simple-java-maven-app:1.0.3
+    - name: Build & push image
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: true
+        tags: docker.io/guycoff/simple-java-maven-app:1.0.3
