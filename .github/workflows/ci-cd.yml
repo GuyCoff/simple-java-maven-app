@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "master" ]   # or master depending on your fork
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -22,11 +22,14 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    # Bump version
+    # Bump version (create file if missing)
     - name: Bump patch version
       id: bump
       run: |
         VERSION_FILE=VERSION
+        if [ ! -f "$VERSION_FILE" ]; then
+          echo "1.0.0" > $VERSION_FILE
+        fi
         VERSION=$(cat $VERSION_FILE)
         IFS='.' read -r major minor patch <<< "$VERSION"
         patch=$((patch+1))
@@ -40,7 +43,7 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
         git add VERSION
-        git commit -m "Bump version to ${{ steps.bump.outputs.new_version }}"
+        git commit -m "Bump version to ${{ steps.bump.outputs.new_version }}" || echo "No changes to commit"
         git push
 
     # Build JAR with Maven
