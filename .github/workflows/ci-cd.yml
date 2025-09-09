@@ -58,9 +58,9 @@ jobs:
         password: 784951623Atnt
 
     # Build & Push Docker Image
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/simple-java-maven-app:${{ steps.bump.outputs.new_version }}
+- name: Build & push image
+  uses: docker/build-push-action@v6
+  with:
+    context: .
+    push: true
+    tags: docker.io/guycoff/simple-java-maven-app:1.0.3
